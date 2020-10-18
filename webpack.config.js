@@ -4,12 +4,12 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    pie: path.resolve(__dirname, "lib/index.js"),
-    "pie.min": path.resolve(__dirname, "lib/index.js"),
+    "pie.min": "./lib/pie.js",
   },
   output: {
-    filename: "pie.js",
+    filename: "pie.min.js",
     path: path.resolve(__dirname, "./dist"),
+    libraryTarget: "commonjs2",
   },
   module: {
     rules: [
@@ -25,6 +25,6 @@ module.exports = {
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserJSPlugin({})],
+    minimizer: [new TerserJSPlugin()],
   },
 };
