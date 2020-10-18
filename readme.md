@@ -1,5 +1,8 @@
 # Arc Pie Chart
 
+![version](https://img.shields.io/npm/v/arc-pie-chart)
+![dependencies](https://img.shields.io/badge/dependencies-none-success)
+
 pie chart that can be divided into several steps
 
 ![pie-chart](https://user-images.githubusercontent.com/26402298/96361803-e23cc500-1163-11eb-8e4f-6008adf53a07.png)
@@ -25,6 +28,7 @@ const chart = makePieChart(data); // svg tag <svg></svg>
 data format
 
 - You can create multi-level pie charts by connecting data arrays.
+- The sum of the percentages must be less than one hundred percent
 
 ```javascript
 const data = [
