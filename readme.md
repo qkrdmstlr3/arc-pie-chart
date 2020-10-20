@@ -5,7 +5,7 @@
 
 pie chart that can be divided into several steps
 
-![pie-chart](https://user-images.githubusercontent.com/26402298/96361803-e23cc500-1163-11eb-8e4f-6008adf53a07.png)
+<img width="397" alt="스크린샷 2020-10-20 오후 4 11 21" src="https://user-images.githubusercontent.com/26402298/96552747-2ad4b980-12ef-11eb-83de-be1ada8ad7c1.png">
 
 ## Install
 
@@ -15,7 +15,9 @@ npm install arc-pie-chart
 
 ## Usage
 
-declaration
+It's just example
+
+### declaration
 
 ```javascript
 import makePieChart from "arc-pie-chart";
@@ -25,7 +27,29 @@ const data = [...]
 const chart = makePieChart(data); // svg tag <svg></svg>
 ```
 
-data format
+### React
+
+```javascript
+import React, { useEffect, useRef } from "react";
+import makePieChart from "arc-pie-chart";
+import { data } from "./data";
+
+function App() {
+  const svg = useRef(null);
+
+  useEffect(() => {
+    if (svg.current) {
+      svg.current.appendChild(makePieChart(data));
+    }
+  });
+
+  return <div ref={svg} />;
+}
+
+export default App;
+```
+
+### data format
 
 - You can create multi-level pie charts by connecting data arrays.
 - The sum of the percentages must be less than one hundred percent
