@@ -4,7 +4,7 @@ const TerserJSPlugin = require("terser-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    "pie.min": "./lib/pie.js",
+    "pie.min": "./lib/pie.ts",
   },
   output: {
     filename: "pie.min.js",
@@ -14,14 +14,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: "/.js$/",
-        include: [path.resolve(__dirname, "lib/")],
-        exclude: "/node_modules/",
-        use: {
-          loader: "babel-loader",
-        },
+        test: /\.ts|\.tsx$/,
+        use: ["babel-loader", "awesome-typescript-loader"],
+        exclude: [/node_modules/],
       },
     ],
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
   },
   optimization: {
     minimize: true,
