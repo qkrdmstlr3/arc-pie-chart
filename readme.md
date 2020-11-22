@@ -2,10 +2,11 @@
 
 ![version](https://img.shields.io/npm/v/arc-pie-chart)
 ![dependencies](https://img.shields.io/badge/dependencies-none-success)
+![typescript](https://img.shields.io/badge/typescript-4.0.5-blue?logo=typescript)
 
-pie chart that can be divided into several steps
+pie chart that can be divided into several steps with Typescript
 
-<img width="397" alt="스크린샷 2020-10-20 오후 4 11 21" src="https://user-images.githubusercontent.com/26402298/96552747-2ad4b980-12ef-11eb-83de-be1ada8ad7c1.png">
+<img width="397" alt="스크린샷 2020-10-20 오후 4 11 21" src="https://user-images.githubusercontent.com/26402298/99898445-f9338180-2ce4-11eb-8e00-fef17b87995f.png">
 
 ## Install
 
@@ -57,37 +58,37 @@ export default App;
 ```javascript
 const data = [
   {
-    name: "수입",
+    name: "INCOME",
     percentage: 55,
     color: "crimson",
-    textColor: "white",
+    textColor: "black",
     data: [
       {
-        name: "월급",
+        name: "SALARY",
         percentage: 30,
         color: "crimson",
         textColor: "white",
       },
       {
-        name: "용돈",
+        name: "BLOG",
         percentage: 30,
         color: "crimson",
         textColor: "white",
       },
       {
-        name: "기타수입",
+        name: "ETC",
         percentage: 40,
         color: "crimson",
         textColor: "white",
         data: [
           {
-            name: "주식",
+            name: "STOCK",
             percentage: 60,
             color: "crimson",
             textColor: "white",
           },
           {
-            name: "빌린 돈",
+            name: "GOLD",
             percentage: 40,
             color: "crimson",
             textColor: "white",
@@ -97,49 +98,49 @@ const data = [
     ],
   },
   {
-    name: "지출",
+    name: "EXPENSE",
     percentage: 45,
     color: "#3BB6AE",
     textColor: "black",
     data: [
       {
-        name: "식비",
+        name: "EAT",
         percentage: 10,
         color: "#3BB6AE",
         textColor: "black",
       },
       {
-        name: "생활",
+        name: "LIFE",
         percentage: 20,
         color: "#3BB6AE",
         textColor: "black",
       },
       {
-        name: "쇼핑/뷰티",
+        name: "SHOPPING",
         percentage: 10,
         color: "#3BB6AE",
         textColor: "black",
       },
       {
-        name: "교통",
+        name: "BUS",
         percentage: 20,
         color: "#3BB6AE",
         textColor: "black",
       },
       {
-        name: "의료/건강",
+        name: "HEALTH",
         percentage: 10,
         color: "#3BB6AE",
         textColor: "black",
       },
       {
-        name: "문화/여가",
+        name: "CULTURE",
         percentage: 10,
         color: "#3BB6AE",
         textColor: "black",
       },
       {
-        name: "미분류",
+        name: "ETC",
         percentage: 20,
         color: "#3BB6AE",
         textColor: "black",
