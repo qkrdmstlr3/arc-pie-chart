@@ -4,8 +4,7 @@
     "module": "commonjs",
     "sourceMap": true,
     "moduleResolution": "Node",
-    "declaration": true,
-    "declarationDir": "./dist/types"
+    "declaration": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]
