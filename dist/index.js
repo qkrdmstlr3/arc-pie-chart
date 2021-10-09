@@ -170,4 +170,4 @@ function makePieChart(data, depth, width = 500) {
     return svg;
 }
 exports.default = makePieChart;
-//# sourceMappingURL=pie.js.map
+//# sourceMappingURL=index.js.map
