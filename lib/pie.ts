@@ -1,30 +1,56 @@
-import { makeTextTagProps, CoordinateType, DataType } from "./types";
+import {
+  makeTextTagProps,
+  CoordinateType,
+  DataType,
+  GetCoordinateType,
+  HandleHoverEvent,
+  MakePathTagType,
+  IterDataType,
+} from "./types";
 
 // 참고 ; http://www.gisdeveloper.co.kr/?p=4705
-const PIE_SIZE = 500;
-const HALF_PIE_SIZE = PIE_SIZE / 2;
-
-function getCoordinate(cX, cY, radius, degree) {
+function getCoordinate({ cx, cy, radius, degree }: GetCoordinateType) {
   degree = (degree * Math.PI) / 180 - (90 * Math.PI) / 180;
   return {
-    x: cX + radius * Math.cos(degree),
-    y: cY + radius * Math.sin(degree),
+    x: cx + radius * Math.cos(degree),
+    y: cy + radius * Math.sin(degree),
   };
 }
 
 function toPieChartItemPath(
-  innerRadius,
-  outerRadius,
-  startDegree,
-  endDegree
+  innerDistanceFromCenter: number,
+  outerDistanceFromCenter: number,
+  startDegree: number,
+  endDegree: number,
+  halfWidth: number
 ): { d: string; textCoordinate: CoordinateType } {
-  const cx = HALF_PIE_SIZE;
-  const cy = HALF_PIE_SIZE;
+  const cx = halfWidth;
+  const cy = halfWidth;
 
-  const startInner = getCoordinate(cx, cy, innerRadius, startDegree);
-  const endInner = getCoordinate(cx, cy, innerRadius, endDegree);
-  const startOuter = getCoordinate(cx, cy, outerRadius, startDegree);
-  const endOuter = getCoordinate(cx, cy, outerRadius, endDegree);
+  const startInner = getCoordinate({
+    cx,
+    cy,
+    radius: innerDistanceFromCenter,
+    degree: startDegree,
+  });
+  const endInner = getCoordinate({
+    cx,
+    cy,
+    radius: innerDistanceFromCenter,
+    degree: endDegree,
+  });
+  const startOuter = getCoordinate({
+    cx,
+    cy,
+    radius: outerDistanceFromCenter,
+    degree: startDegree,
+  });
+  const endOuter = getCoordinate({
+    cx,
+    cy,
+    radius: outerDistanceFromCenter,
+    degree: endDegree,
+  });
   const arcSweep = endDegree - startDegree <= 180 ? "0" : "1";
 
   const d = [
@@ -32,8 +58,8 @@ function toPieChartItemPath(
     ["L", startOuter.x, startOuter.y].join(" "),
     [
       "A",
-      outerRadius,
-      outerRadius,
+      outerDistanceFromCenter,
+      outerDistanceFromCenter,
       0,
       arcSweep,
       1,
@@ -43,8 +69,8 @@ function toPieChartItemPath(
     ["L", endInner.x, endInner.y].join(" "),
     [
       "A",
-      innerRadius,
-      innerRadius,
+      innerDistanceFromCenter,
+      innerDistanceFromCenter,
       0,
       arcSweep,
       0,
@@ -54,17 +80,17 @@ function toPieChartItemPath(
     "z",
   ].join(" ");
 
-  const textCoordinate = getCoordinate(
+  const textCoordinate = getCoordinate({
     cx,
     cy,
-    (innerRadius + outerRadius) / 2,
-    (startDegree + endDegree) / 2
-  );
+    radius: (innerDistanceFromCenter + outerDistanceFromCenter) / 2,
+    degree: (startDegree + endDegree) / 2,
+  });
 
   return { d, textCoordinate };
 }
 
-function makePathTag(fill, d, className) {
+function makePathTag({ fill, d, className }: MakePathTagType) {
   if (className) {
     return `<path fill=${fill} d="${d}" class="${className}"></path>`;
   }
@@ -92,91 +118,132 @@ function makeTextTag({
   `;
 }
 
-function iterData(
+function iterData({
   data,
   startDegree,
   parentDegree,
   svg,
-  innerRadius,
-  outerRadius
-) {
+  innerDistanceFromCenter,
+  outerDistanceFromCenter,
+  halfWidth,
+  totalDepth,
+}: IterDataType) {
   let totalDegree = 0;
-  data.forEach((d) => {
-    if (d.percentage === 0) {
+  data.forEach((datum) => {
+    if (datum.percentage === 0) {
       return;
     }
 
-    const degree = (parentDegree * d.percentage) / 100;
-    const { d: pathD, textCoordinate } = toPieChartItemPath(
-      innerRadius,
-      outerRadius,
+    const degree = (parentDegree * datum.percentage) / 100;
+    console.log(
+      datum.name,
+      totalDegree,
       startDegree + totalDegree + 0.3,
       startDegree + totalDegree + degree - 0.3
     );
+    const { d: pathD, textCoordinate } = toPieChartItemPath(
+      innerDistanceFromCenter,
+      outerDistanceFromCenter,
+      startDegree + totalDegree + 0.3,
+      startDegree + totalDegree + degree - 0.3,
+      halfWidth
+    );
 
     svg.innerHTML +=
-      makePathTag(d.color, pathD, d.data ? null : "pie_end") +
+      makePathTag({
+        fill: datum.color,
+        d: pathD,
+        className: datum.data ? "" : "pie_end",
+      }) +
       makeTextTag({
-        text: d.name,
-        percentage: d.percentage,
+        text: datum.name,
+        percentage: datum.percentage,
         coordinate: textCoordinate,
-        color: d.textColor,
+        color: datum.textColor,
       });
 
-    if (d.data) {
-      iterData(
-        d.data,
-        totalDegree,
-        degree,
+    // halfWidth 250 : pieAreaWidth =
+    const pieAreaWidth = (13.5 * halfWidth) / 25;
+    const maxPieWidth = pieAreaWidth / totalDepth;
+    // halfWidth 250 : gapBetweenInnerOuterPie 10
+    const gapBetweenInnerOuterPie = Math.min(halfWidth / 25, maxPieWidth / 6.5);
+    // halfWidth 250 : pieWidth 55
+    const pieWidth = Math.min(
+      (5.5 * halfWidth) / 25,
+      (maxPieWidth * 5.5) / 6.5
+    );
+    if (datum.data) {
+      iterData({
+        data: datum.data,
+        startDegree: startDegree + totalDegree + 0.3,
+        parentDegree: degree,
         svg,
-        outerRadius + 10,
-        outerRadius + 55
-      );
+        innerDistanceFromCenter:
+          outerDistanceFromCenter + gapBetweenInnerOuterPie,
+        outerDistanceFromCenter: outerDistanceFromCenter + pieWidth,
+        halfWidth,
+        totalDepth,
+      });
     }
 
     totalDegree += degree;
   });
 }
 
-function handleHoverEvent(event, svg) {
-  const path = event.target.closest("path");
+function handleHoverEvent({ event, svg, halfWidth }: HandleHoverEvent) {
+  const path = (event.target as HTMLElement).closest("path");
   if (path) {
-    const name = path.nextSibling.nextSibling.innerHTML;
-    const percentage = path.nextSibling.nextSibling.nextSibling.nextSibling.innerHTML.replace(
-      "%",
-      ""
+    const name = (path.nextSibling?.nextSibling as HTMLElement).innerHTML;
+    const percentage = Number(
+      (
+        path.nextSibling?.nextSibling?.nextSibling?.nextSibling as HTMLElement
+      ).innerHTML.replace("%", "")
     );
 
     const oldChild = svg.querySelectorAll(".center_text");
-    oldChild.forEach((child) => svg.removeChild(child));
+    oldChild.forEach((child: any) => svg.removeChild(child));
 
     svg.innerHTML += makeTextTag({
       text: name,
       percentage,
-      coordinate: { x: HALF_PIE_SIZE, y: HALF_PIE_SIZE },
+      coordinate: { x: halfWidth, y: halfWidth },
       color: "black",
-      fontSize: 18,
+      fontSize: (1.8 * halfWidth) / 25,
       className: "center_text",
       gap: 24,
     });
   }
 }
 
-function makePieChart(data: DataType[]) {
+function makePieChart(data: DataType[], depth: number, width: number = 500) {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("width", String(PIE_SIZE));
-  svg.setAttribute("height", String(PIE_SIZE));
-  svg.setAttribute("background", "#fff");
+  const halfWidth = width / 2;
+  svg.setAttribute("width", String(width));
+  svg.setAttribute("height", String(width));
 
-  const circle = `<circle cx="${HALF_PIE_SIZE}" cy="${HALF_PIE_SIZE}" r="70" fill="#ddd"></circle>`;
+  const circleRadius = (7 * halfWidth) / 25;
+  const circle = `<circle cx="${halfWidth}" cy="${halfWidth}" r="${circleRadius}" fill="#ddd"></circle>`;
   svg.innerHTML = circle;
 
-  const innerRadius = 85;
-  const outerRadius = 115;
+  // halfWidth 250 : innerDistanceFromCenter 85
+  const innerDistanceFromCenter = (8.5 * halfWidth) / 25; // first pie inner distance from center
+  // halfWidth 250 : outerDistanceFromCenter 115
+  const outerDistanceFromCenter = (11.5 * halfWidth) / 25; // first pie outer distance from center
 
-  iterData(data, 0, 360, svg, innerRadius, outerRadius);
+  iterData({
+    data,
+    startDegree: 0,
+    parentDegree: 360,
+    svg,
+    innerDistanceFromCenter,
+    outerDistanceFromCenter,
+    halfWidth,
+    totalDepth: depth - 1,
+  });
 
-  svg.addEventListener("mouseover", (event) => handleHoverEvent(event, svg));
+  svg.addEventListener("mouseover", (event) =>
+    handleHoverEvent({ event, svg, halfWidth })
+  );
 
   return svg;
 }
