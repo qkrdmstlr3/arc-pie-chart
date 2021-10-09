@@ -7,7 +7,7 @@
 
 pie chart that can be divided into several steps with Typescript
 
-<img width="397" alt="스크린샷 2020-10-20 오후 4 11 21" src="https://user-images.githubusercontent.com/26402298/136648740-d70f396f-cf66-4f0d-8482-054902d5d227.png">
+<img alt="스크린샷 2020-10-20 오후 4 11 21" src="https://user-images.githubusercontent.com/26402298/136648740-d70f396f-cf66-4f0d-8482-054902d5d227.png">
 
 ## Install
 
