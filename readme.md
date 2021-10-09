@@ -1,5 +1,6 @@
 # Arc Pie Chart
 
+![downloads](https://img.shields.io/npm/dt/arc-pie-chart)
 ![version](https://img.shields.io/npm/v/arc-pie-chart)
 ![dependencies](https://img.shields.io/badge/dependencies-none-success)
 ![typescript](https://img.shields.io/badge/typescript-4.0.5-blue?logo=typescript)
@@ -18,6 +19,14 @@ npm install arc-pie-chart
 
 It's just example
 
+### parageters
+
+- data : See the data format below.
+- totalDepth: your data's depth. (example is 3)
+- size: chart's px width
+  - default is 500
+  - you can change it by using css
+
 ### declaration
 
 ```javascript
@@ -25,7 +34,7 @@ import makePieChart from "arc-pie-chart";
 
 const data = [...]
 
-const chart = makePieChart(data); // svg tag <svg></svg>
+const chart = makePieChart(data, totalDepth, size); // svg tag <svg></svg>
 ```
 
 ### React
@@ -40,7 +49,7 @@ function App() {
 
   useEffect(() => {
     if (svg.current) {
-      svg.current.appendChild(makePieChart(data));
+      svg.current.appendChild(makePieChart(data, totalDepth, size));
     }
   });
 
