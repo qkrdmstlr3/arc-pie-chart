@@ -6,7 +6,7 @@ import {
   HandleHoverEvent,
   MakePathTagType,
   IterDataType,
-} from "./types";
+} from "./type";
 
 // 참고 ; http://www.gisdeveloper.co.kr/?p=4705
 function getCoordinate({ cx, cy, radius, degree }: GetCoordinateType) {
