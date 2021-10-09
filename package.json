@@ -1,6 +1,6 @@
 {
   "name": "arc-pie-chart",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "pie chart that can be divided into several steps",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
