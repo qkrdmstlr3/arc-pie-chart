@@ -30,7 +30,7 @@ It's just example
 ### declaration
 
 ```javascript
-import { makePieChart } from "arc-pie-chart";
+import makePieChart from "arc-pie-chart";
 
 const data = [...]
 
@@ -41,7 +41,7 @@ const chart = makePieChart(data, totalDepth, size); // svg tag <svg></svg>
 
 ```javascript
 import React, { useEffect, useRef } from "react";
-import { makePieChart } from "arc-pie-chart";
+import makePieChart from "arc-pie-chart";
 import { data } from "./data";
 
 function App() {

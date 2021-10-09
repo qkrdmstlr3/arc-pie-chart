@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     if (svg.current) {
-      svg.current.appendChild(makePieChart(data));
+      svg.current.appendChild(makePieChart(data, 3, 500));
     }
   });
 
