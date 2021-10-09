@@ -3,7 +3,7 @@
 ![downloads](https://img.shields.io/npm/dt/arc-pie-chart)
 ![version](https://img.shields.io/npm/v/arc-pie-chart)
 ![dependencies](https://img.shields.io/badge/dependencies-none-success)
-![typescript](https://img.shields.io/badge/typescript-4.0.5-blue?logo=typescript)
+![typescript](https://img.shields.io/badge/typescript-4.3.5-blue?logo=typescript)
 
 pie chart that can be divided into several steps with Typescript
 
@@ -30,7 +30,7 @@ It's just example
 ### declaration
 
 ```javascript
-import makePieChart from "arc-pie-chart";
+import { makePieChart } from "arc-pie-chart";
 
 const data = [...]
 
@@ -41,7 +41,7 @@ const chart = makePieChart(data, totalDepth, size); // svg tag <svg></svg>
 
 ```javascript
 import React, { useEffect, useRef } from "react";
-import makePieChart from "arc-pie-chart";
+import { makePieChart } from "arc-pie-chart";
 import { data } from "./data";
 
 function App() {
@@ -135,6 +135,20 @@ const data = [
         percentage: 20,
         color: "#3BB6AE",
         textColor: "black",
+        data: [
+          {
+            name: "FAST",
+            percentage: 50,
+            color: "#3BB6AE",
+            textColor: "black",
+          },
+          {
+            name: "SLOW",
+            percentage: 50,
+            color: "#3BB6AE",
+            textColor: "black",
+          },
+        ],
       },
       {
         name: "HEALTH",
