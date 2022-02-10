@@ -135,12 +135,6 @@ function iterData({
     }
 
     const degree = (parentDegree * datum.percentage) / 100;
-    console.log(
-      datum.name,
-      totalDegree,
-      startDegree + totalDegree + 0.3,
-      startDegree + totalDegree + degree - 0.3
-    );
     const { d: pathD, textCoordinate } = toPieChartItemPath(
       innerDistanceFromCenter,
       outerDistanceFromCenter,
