@@ -46,6 +46,8 @@ import { data } from "./data";
 
 function App() {
   const svg = useRef(null);
+  const totalDepth = 3; // data's depth
+  const size = 500; // px size
 
   useEffect(() => {
     if (svg.current) {
