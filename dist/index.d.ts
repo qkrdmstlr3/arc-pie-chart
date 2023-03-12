@@ -1,3 +1,5 @@
-import { DataType } from "./type";
+import { DataType } from './type.js';
+
 declare function makePieChart(data: DataType[], depth: number, width?: number): SVGSVGElement;
-export default makePieChart;
+
+export { makePieChart as default };

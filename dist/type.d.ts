@@ -1,8 +1,8 @@
-export interface CoordinateType {
+interface CoordinateType {
     x: number;
     y: number;
 }
-export interface makeTextTagProps {
+interface makeTextTagProps {
     text: string;
     percentage: number;
     coordinate: CoordinateType;
@@ -11,7 +11,7 @@ export interface makeTextTagProps {
     className?: string;
     gap?: number;
 }
-export interface DataType {
+interface DataType {
     name: string;
     percentage: number;
     color: string;
@@ -21,23 +21,23 @@ export interface DataType {
 /**
  * function type
  */
-export interface GetCoordinateType {
+interface GetCoordinateType {
     cx: number;
     cy: number;
     radius: number;
     degree: number;
 }
-export interface MakePathTagType {
+interface MakePathTagType {
     fill: string;
     d: string;
     className: string;
 }
-export interface HandleHoverEvent {
+interface HandleHoverEvent {
     event: MouseEvent;
     svg: SVGSVGElement;
     halfWidth: number;
 }
-export interface IterDataType {
+interface IterDataType {
     data: DataType[];
     startDegree: number;
     parentDegree: number;
@@ -47,3 +47,5 @@ export interface IterDataType {
     halfWidth: number;
     totalDepth: number;
 }
+
+export { CoordinateType, DataType, GetCoordinateType, HandleHoverEvent, IterDataType, MakePathTagType, makeTextTagProps };

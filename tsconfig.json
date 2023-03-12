@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es2018",
     "module": "commonjs",
-    "sourceMap": true,
     "moduleResolution": "Node",
     "declaration": true,
     "outDir": "./dist"
